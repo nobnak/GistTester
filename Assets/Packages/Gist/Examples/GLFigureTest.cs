@@ -3,66 +3,71 @@ using System.Collections;
 using Gist;
 using System.Collections.Generic;
 
-[ExecuteInEditMode]
-public class GLFigureTest : MonoBehaviour {
-	public Data[] dataset;
+namespace Gist {
+	[ExecuteInEditMode]
+	public class GLFigureTest : MonoBehaviour {
+		public Data[] dataset;
 
-	public Transform[] lines;
+		public Transform[] lines;
 
-	GLFigure _fig;
+		GLFigure _fig;
 
-	void OnEnable() {
-		_fig = new GLFigure ();
-	}
-	void OnDisable() {
-		if (_fig != null) {
-			_fig.Dispose ();
-			_fig = null;
+		void OnEnable() {
+			_fig = new GLFigure ();
 		}
-	}
-	void OnRenderObject() {
-		for (var i = 0; i < dataset.Length; i++)
-			dataset [i].Draw (_fig);
-
-		if (lines.Length >= 2) {
-			_fig.DrawLines (GenerateVertices(), transform, Color.white, GL.LINES);
+		void OnDisable() {
+			if (_fig != null) {
+				_fig.Dispose ();
+				_fig = null;
+			}
 		}
-	}
-	IEnumerable<Vector3> GenerateVertices() {
-		Transform curr = lines[0];
-		for (var i = 1; i < lines.Length; i++) {
-			yield return curr.position;
-			var next = lines[i];
-			yield return next.position;
-			curr = next;
+		void OnRenderObject() {
+			if (dataset == null || lines == null)
+				return;
+			
+			for (var i = 0; i < dataset.Length; i++)
+				dataset [i].Draw (_fig);
+
+			if (lines.Length >= 2) {
+				_fig.DrawLines (GenerateVertices(), transform, Color.white, GL.LINES);
+			}
 		}
-	}
+		IEnumerable<Vector3> GenerateVertices() {
+			Transform curr = lines[0];
+			for (var i = 1; i < lines.Length; i++) {
+				yield return curr.position;
+				var next = lines[i];
+				yield return next.position;
+				curr = next;
+			}
+		}
 
-	[System.Serializable]
-	public class Data {
-		public enum ShapeEnum { Circle = 0, Quad }
-		public enum FillEnum { Edge = 0, Fill }
+		[System.Serializable]
+		public class Data {
+			public enum ShapeEnum { Circle = 0, Quad }
+			public enum FillEnum { Edge = 0, Fill }
 
-		public ShapeEnum shape;
-		public FillEnum fill;
-		public Color color;
+			public ShapeEnum shape;
+			public FillEnum fill;
+			public Color color;
 
-		public Transform transform;
+			public Transform transform;
 
-		public void Draw(GLFigure fig) {
-			switch (shape) {
-			case ShapeEnum.Circle:
-				if (fill == FillEnum.Edge)
-					fig.DrawCircle (transform.position, transform.rotation, transform.localScale, color);
-				else
-					fig.FillCircle (transform.position, transform.rotation, transform.localScale, color);
-				break;
-			case ShapeEnum.Quad:
-				if (fill == FillEnum.Edge)
-					fig.DrawQuad (transform.position, transform.rotation, transform.localScale, color);
-				else
-					fig.FillQuad (transform.position, transform.rotation, transform.localScale, color);
-				break;
+			public void Draw(GLFigure fig) {
+				switch (shape) {
+				case ShapeEnum.Circle:
+					if (fill == FillEnum.Edge)
+						fig.DrawCircle (transform.position, transform.rotation, transform.localScale, color);
+					else
+						fig.FillCircle (transform.position, transform.rotation, transform.localScale, color);
+					break;
+				case ShapeEnum.Quad:
+					if (fill == FillEnum.Edge)
+						fig.DrawQuad (transform.position, transform.rotation, transform.localScale, color);
+					else
+						fig.FillQuad (transform.position, transform.rotation, transform.localScale, color);
+					break;
+				}
 			}
 		}
 	}
