@@ -20,7 +20,7 @@ namespace Gist {
             public string dataPath;
 
             #region Save/Load
-            public virtual void Load<T>(T data) {
+            public virtual void Load<T>(ref T data) {
                 string path;
                 if (!DataPath (out path))
                     return;
@@ -62,12 +62,9 @@ namespace Gist {
         Rect _window;
 
         protected virtual void OnEnable() {
-            core.Load (data);
+            core.Load (ref data);
             _dataEditor = new FieldEditor (data);
             OnDataChange ();
-        }
-        protected virtual void OnDisable() {
-            core.Save(data);
         }
         protected virtual void Update() {
             if (Input.GetKeyDown (toggleKey)) {

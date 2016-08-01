@@ -4,7 +4,6 @@ using Gist;
 using DataUI;
 
 namespace Gist {
-    [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
     public class CropCamera : Settings<CropCamera.Data> {
 		public Camera[] outputTotalViews;
@@ -15,10 +14,9 @@ namespace Gist {
             base.OnEnable ();
             _attachedCamera = GetComponent<Camera> ();
     	}
-        protected override void OnDisable() {
+        protected virtual void OnDisable() {
             if (_attachedCamera != null)
                 _attachedCamera.ResetProjectionMatrix ();
-            base.OnDisable ();
         }
         protected override void Update () {
             base.Update ();
