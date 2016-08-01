@@ -72,14 +72,14 @@ namespace Gist {
         protected virtual void Update() {
             if (Input.GetKeyDown (toggleKey)) {
                 mode = (ModeEnum)(((int)mode + 1) % (int)ModeEnum.End);
-                switch (mode) {
-                case ModeEnum.Normal:
+                if (mode == ModeEnum.Normal)
                     core.Save (data);
-                    break;
-                case ModeEnum.GUI:
-                    OnDataChange ();
-                    break;
-                }
+            }
+
+            switch (mode) {
+            case ModeEnum.GUI:
+                OnDataChange ();
+                break;
             }
         }
         protected virtual void OnGUI() {

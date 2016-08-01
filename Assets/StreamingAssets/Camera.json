@@ -1,0 +1,14 @@
+{
+    "clearFlags": 1,
+    "backgroundColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+    },
+    "orthographic": false,
+    "fieldOfView": 30.0,
+    "orthographicSize": 10.0,
+    "nearClip": 0.30000001192092898,
+    "farClip": 1000.0
+}

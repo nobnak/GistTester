@@ -27,10 +27,11 @@ namespace Gist {
 
 		void UpdateCrop () {
 			var totalSize = data.totalSize;
-			var normCropX = 1f / totalSize.x;
-			var normCropY = 1f / totalSize.y;
-			var normOffsetX = 2f * (data.offset.x + 0.5f) / totalSize.x - 1f;
-			var normOffsetY = 2f * (data.offset.y + 0.5f) / totalSize.y - 1f;
+            var occupancy = Mathf.Max (0.01f, data.occupancy);
+            var normCropX = occupancy / totalSize.x;
+            var normCropY = occupancy / totalSize.y;
+            var normOffsetX = 2f * (data.offset.x + 0.5f * occupancy) / totalSize.x - 1f;
+            var normOffsetY = 2f * (data.offset.y + 0.5f * occupancy) / totalSize.y - 1f;
 			var totalAspect = _attachedCamera.aspect * data.totalSize.x / totalSize.y;
 
 			float left, right, bottom, top;
@@ -89,6 +90,7 @@ namespace Gist {
         public class Data {
             public Vector2 totalSize = new Vector2(1f, 1f);
             public Vector2 offset = Vector2.zero;
+            public float occupancy = 1f;
         }
     }
 }
