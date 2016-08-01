@@ -20,13 +20,13 @@ namespace Gist {
             public string dataPath;
 
             #region Save/Load
-            public virtual void Load<T>(ref T data) {
+            public virtual void Load<T>(T data) {
                 string path;
                 if (!DataPath (out path))
                     return;
 
                 try {
-                    data = JsonUtility.FromJson<T>(File.ReadAllText(path));
+                    JsonUtility.FromJsonOverwrite(File.ReadAllText(path), data);
                 } catch (System.Exception e) {
                     Debug.Log (e);
                 }
@@ -62,7 +62,7 @@ namespace Gist {
         Rect _window;
 
         protected virtual void OnEnable() {
-            core.Load (ref data);
+            core.Load (data);
             _dataEditor = new FieldEditor (data);
             OnDataChange ();
         }
