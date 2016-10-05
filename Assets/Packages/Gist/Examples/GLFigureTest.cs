@@ -44,7 +44,7 @@ namespace Gist {
 
 		[System.Serializable]
 		public class Data {
-			public enum ShapeEnum { Circle = 0, Quad }
+			public enum ShapeEnum { Circle = 0, Quad, Fan }
 			public enum FillEnum { Edge = 0, Fill }
 
 			public ShapeEnum shape;
@@ -67,6 +67,12 @@ namespace Gist {
 					else
 						fig.FillQuad (transform.position, transform.rotation, transform.localScale, color);
 					break;
+                case ShapeEnum.Fan:
+                    if (fill == FillEnum.Edge)
+                        fig.DrawFan (transform.position, transform.rotation, transform.localScale, color, -30f, 30f);
+                    else
+                        fig.FillFan (transform.position, transform.rotation, transform.localScale, color, -30f, 30f);
+                    break;
 				}
 			}
 		}
