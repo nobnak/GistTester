@@ -6,6 +6,8 @@ using Gist;
 public class TestSampleOnSphere : MonoBehaviour {
 	public GameObject fab;
 	public int count = 100;
+    public float sphereRadius = 1f;
+    public float lonWidth = 90f;
 
 	List<GameObject> pins;
 
@@ -18,9 +20,11 @@ public class TestSampleOnSphere : MonoBehaviour {
 			var p = Instantiate (fab);
 			var tr = p.transform;
 			float lat, lon;
-			RandomOnSphere.RandomPolar (out lat, out lon);
+            RandomOnSphere.RandomPolar (out lat, out lon, -0.5f * lonWidth, 0.5f * lonWidth);
 			tr.SetParent (transform, false);
-			tr.localRotation = Quaternion.Euler (lat, lon / 4f, 0f);
+            var qr = Quaternion.Euler (lat, lon, 0f);
+            tr.localPosition = sphereRadius * (qr * Vector3.forward);
+            tr.localRotation = qr;
 			pins.Add (p);
 		}
 	}
