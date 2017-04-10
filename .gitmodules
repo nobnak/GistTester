@@ -1,3 +1,6 @@
 [submodule "Assets/Packages/Gist"]
 	path = Assets/Packages/Gist
 	url = git@github.com:nobnak/Gist.git
+[submodule "Assets/Packages/DataUI"]
+	path = Assets/Packages/DataUI
+	url = https://github.com/nobnak/DataUI.git
